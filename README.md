@@ -23,7 +23,13 @@ Made a separate section for these since they will often intermingle with other `
 
 If one looks at [Hashtable definitions](https://learn.microsoft.com/en-gb/powershell/module/microsoft.powershell.core/about/about_calculated_properties#hashtable-key-definitions), the first two points mention `name` and `expression`.
 
-Here is an example of using calculated properties to manipulate output: `Get-ChildItem -Recurse -Attributes !Directory | Select-Object -Property FullName, Name, @{Name='Description'; Expression={''}}, CreationTime, LastWriteTime, @{Name='Owner';Expression={$_.GetAccessControl().Owner}} | Export-CSV <file-name>.csv -NoTypeInformation -NoClobber` (this happens to be the same command I used to map files and their details, like the path name, name of file, time of creation, time of last write and owner). The calculated properties here are `@{Name='Description'; Expression={''}}` and `@{Name='Owner';Expression={$_.GetAccessControl().Owner}}` which would create an empty column called "Description" and another column called "Owner" with the value of the owner (using the `GetAccessControl()` method afforded by `Get-ChildItem`). Note that these properties use the same `name` and `expression` keys that we mention in the definition of Hashtables in the stanza above.
+Here is an example of using calculated properties to manipulate output:
+```
+Get-ChildItem -Recurse -Attributes !Directory | Select-Object -Property FullName, Name, @{Name='Description'; Expression={''}}, CreationTime, LastWriteTime, @{Name='Owner';Expression={$_.GetAccessControl().Owner}} | Export-CSV <file-name>.csv -NoTypeInformation -NoClobber
+```
+(this happens to be the same command I used to map files and their details, like the path name, name of file, time of creation, time of last write and owner)
+
+The calculated properties here are `@{Name='Description'; Expression={''}}` and `@{Name='Owner';Expression={$_.GetAccessControl().Owner}}` which would create an empty column called "Description" and another column called "Owner" with the value of the owner (using the `GetAccessControl()` method afforded by `Get-ChildItem`). Note that these properties use the same `name` and `expression` keys that we mention in the definition of Hashtables a few stanzas above.
 
 Calculated properties allow one to store properties and manipulate them in an easier fashion than what would otherwise be possible. How would you insert a column in-between other columns in an `xlxs`/`csv` file? [Answer](https://stackoverflow.com/a/73948009). Here's the snippet:
 ```
