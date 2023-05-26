@@ -14,3 +14,23 @@ The way to use that would be: `<some command> | Get-Member`. To read the complet
 To find a specific pattern of string (à la `grep`), use [Select-String](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/select-string).
 
 Once you know the objects, properties and methods afforded by a particular command, you can use [Select-Object](https://learn.microsoft.com/en-gb/powershell/module/microsoft.powershell.utility/select-object) to use said objects, properties and methods. The website has great examples, but a simple method to use this `cmdlet` would be: `<some command> | Select-Object -Property <property1>, <property2>`
+
+## Calculated properties
+
+Made a separate section for these since they will often intermingle with other `cmdlets` to manipulate data/output. Link: [about_Calculated_Properties](https://learn.microsoft.com/en-gb/powershell/module/microsoft.powershell.core/about/about_calculated_properties).
+
+[`@{}` is used to create a hashtable in Powershell](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables) [related, [about_Arrays: `@()`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_arrays)].
+
+If one looks at [Hashtable definitions](https://learn.microsoft.com/en-gb/powershell/module/microsoft.powershell.core/about/about_calculated_properties#hashtable-key-definitions), the first two points mention `name` and `expression`.
+
+Here is an example of using calculated properties to manipulate output: `Get-ChildItem -Recurse -Attributes !Directory | Select-Object -Property FullName, Name, @{Name='Description'; Expression={''}}, CreationTime, LastWriteTime, @{Name='Owner';Expression={$_.GetAccessControl().Owner}} | Export-CSV <file-name>.csv -NoTypeInformation -NoClobber` (this happens to be the same command I used to map files and their details, like the path name, name of file, time of creation, time of last write and owner). The calculated properties here are `@{Name='Description'; Expression={''}}` and `@{Name='Owner';Expression={$_.GetAccessControl().Owner}}` which would create an empty column called "Description" and another column called "Owner" with the value of the owner (using the `GetAccessControl()` method afforded by `Get-ChildItem`). Note that these properties use the same `name` and `expression` keys that we mention in the definition of Hashtables in the stanza above.
+
+Calculated properties allow one to store properties and manipulate them in an easier fashion than what would otherwise be possible. How would you insert a column in-between other columns in an `xlxs`/`csv` file? [Answer](https://stackoverflow.com/a/73948009). Here's the snippet:
+```
+$csv = Import-Csv -Path "attendees.csv" -Delimiter ';' 
+$Properties = [Collections.Generic.List[Object]]$csv[0].psobject.properties.name
+$Properties.Insert(1, @{ n='Guid'; e={ New-Guid } }) # insert at column #1
+$csv |Select-Object -Property $Properties |Export-Csv new_attendees.csv' -NoTypeInformation
+```
+
+Notice how the calculate property is used to insert the column "Guid" right after the first column in the `csv` file.
