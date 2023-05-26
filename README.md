@@ -39,7 +39,7 @@ $Properties.Insert(1, @{ n='Guid'; e={ New-Guid } }) # insert at column #1
 $csv |Select-Object -Property $Properties |Export-Csv new_attendees.csv' -NoTypeInformation
 ```
 
-Notice how the calculate property is used to insert the column "Guid" right after the first column in the `attendees.csv` file using the `csv` variable.
+Notice how the calculated property is used to insert the column "Guid" right after the first column in the `attendees.csv` file using the `csv` variable.
 
 ## PSCustomObject
 
