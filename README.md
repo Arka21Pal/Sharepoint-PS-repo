@@ -45,5 +45,5 @@ Notice how the calculate property is used to insert the column "Guid" right afte
 
 A very good datastructure to store information in Powershell.
 
-[about_PSCustomObject](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_pscustomobject)
+[about_PSCustomObject](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_pscustomobject) \
 [Everything you wanted to know about PSCustomObject](https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-pscustomobject)
