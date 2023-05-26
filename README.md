@@ -34,3 +34,10 @@ $csv |Select-Object -Property $Properties |Export-Csv new_attendees.csv' -NoType
 ```
 
 Notice how the calculate property is used to insert the column "Guid" right after the first column in the `csv` file.
+
+## PSCustomObject
+
+A very good datastructure to store information in Powershell.
+
+[about_PSCustomObject](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_pscustomobject)
+[Everything you wanted to know about PSCustomObject](https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-pscustomobject)
